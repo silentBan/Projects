@@ -1,0 +1,53 @@
+// Prisma schema — models map 1:1 to Postgres tables.
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  description String
+  icon        String
+  priceTokens Int
+  createdAt   DateTime    @default(now())
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+}
+
+// Single global cart for this demo (one row per product).
+model CartItem {
+  id        String  @id @default(cuid())
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @unique
+  quantity  Int     @default(1)
+}
+
+// Single wallet holding the player's virtual token balance.
+model Wallet {
+  id      String @id @default(cuid())
+  balance Int    @default(300)
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  totalTokens Int
+  createdAt   DateTime    @default(now())
+  items       OrderItem[]
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  order       Order   @relation(fields: [orderId], references: [id])
+  orderId     String
+  product     Product @relation(fields: [productId], references: [id])
+  productId   String
+  quantity    Int
+  priceTokens Int
+}
