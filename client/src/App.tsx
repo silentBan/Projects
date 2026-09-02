@@ -108,14 +108,13 @@ export default function App() {
       <main>
         <div className="grid-head">
           <h2>Prizes</h2>
-          <span className="hint">Tap add — nothing's spent until you redeem.</span>
+          <span className="hint">Tap add. Nothing's spent until you redeem.</span>
         </div>
         <ProductGrid products={products} onAdd={add} />
       </main>
 
       <footer>
-        Built with React · Node/Express · PostgreSQL + Prisma — virtual tokens only{" "}
-        <span className="heart">♥</span>
+        Built with React · Node/Express · PostgreSQL + Prisma · virtual tokens only
       </footer>
 
       <CartDrawer
